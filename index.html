@@ -3,7 +3,7 @@
     <title>HTML5 Canvas Winning Wheel</title>
     <link rel="stylesheet" href="main.css" type="text/css" />
     <script type="text/javascript" src="./Winwheel.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
   </head>
   <body>
       <style>
@@ -29,7 +29,7 @@
               background-color: rgba(27, 26, 26, 0.527);
               min-height: 100vh;
               min-width: 100vw;
-              display: flex;
+              display: none;
               align-items: center;
               justify-content: center;
           }
@@ -64,7 +64,7 @@
           .action_btn {
               width: 190px;
               height: 40px;
-              margin-top: 10px;
+              margin-top: 20px;
           }
           .action_btn:nth-child(2) {
               margin-left: 20px;
@@ -94,7 +94,7 @@
       </style>
       <div class="popup_window_container" id="pwc">
           <div class="card_container">
-                  <div class="title">SHARE TO 5 WHATSAPP/TELEGRAM GROUPS</div>
+                  <div class="title">Congratulations!!!. You've won <span id="showprice"></span></div>
               <div class="button_container">
               <button type="button" id="shareBtnW" class="action_btn action_btn_whatsapp" onclick="whatsappShare()">SHARE TO WHATSAPP</button>
               <button type="button" id="shareBtnT" class="action_btn telegram_btn" onclick="telegramShare()">SHARE TO TELEGRAM</button>
@@ -131,6 +131,7 @@
     </div>
     <script>
       // Create new wheel object specifying the parameters at creation time.
+      let wonPrize = '';
       let theWheel = new Winwheel({
         numSegments: 8, // Specify number of segments.
         outerRadius: 212, // Set outer radius so wheel fits inside the background.
@@ -248,6 +249,8 @@
       function alertPrize(indicatedSegment) {
         // Do basic alert of the segment text. You would probably want to do something more interesting with this information.
         // alert("You have won " + indicatedSegment.text);
+        wonPrize = indicatedSegment.text
+        document.getElementById('showprice').textContent = indicatedSegment.text
         document.getElementById('pwc').style.display='flex'
       }
       let lsdata2 = localStorage.getItem("shareCount");
@@ -261,11 +264,16 @@
         document.getElementById('redirectbtn').classList.add('action_btn_whatsapp');
         document.getElementById('redirectbtn').removeAttribute('disabled');
         document.getElementById('redirectbtn').style.cursor = 'pointer'
+        // localStorage.removeItem("shareCount");
+        
+        // localStorage.removeItem("shareCount");
+        // window.location.href = "https://facebook.com";
       }
       function gotoFb() {
         let lsdata = localStorage.getItem("shareCount");
         lsdata = Number(lsdata);
         if (lsdata === 5) {
+        localStorage.removeItem("shareCount");
           window.location.href = "https://facebook.com";
         }
       }
@@ -281,6 +289,17 @@
             count = Number(lsdata);
             count += 1;
             localStorage.setItem("shareCount", count);
+        //     if(count === 5) {
+        //         document.getElementById('shareBtnW').setAttribute('disabled','disabled');
+        // document.getElementById('shareBtnT').setAttribute('disabled','disabled');
+        // document.getElementById('shareBtnW').classList.add('disabled_btn')
+        // document.getElementById('shareBtnT').classList.remove('telegram_btn')
+        // document.getElementById('shareBtnT').classList.add('disabled_btn')
+        // document.getElementById('redirectbtn').classList.remove('disabled_btn')
+        // document.getElementById('redirectbtn').classList.add('action_btn_whatsapp');
+        // document.getElementById('redirectbtn').removeAttribute('disabled');
+        // document.getElementById('redirectbtn').style.cursor = 'pointer'
+        //     }
             window.location.href =
               "https://api.whatsapp.com/send?text=Hi, I earned free data from this website https://google.com";
           }
@@ -292,14 +311,25 @@
         if (lsdata === undefined || !lsdata) {
           localStorage.setItem("shareCount", count);
           window.location.href =
-              "https://t.me/share?text=Hi, I earned free data from this website&url=https://google.com";
+              "https://t.me/share/url?text=Hi, I earned free data from this website&url=https://google.com";
         } else if (lsdata > 0 && lsdata < 5) {
           lsdata = Number(lsdata);
             count = Number(lsdata);
             count += 1;
             localStorage.setItem("shareCount", count);
+        //     if(count === 5) {
+        //         document.getElementById('shareBtnW').setAttribute('disabled','disabled');
+        // document.getElementById('shareBtnT').setAttribute('disabled','disabled');
+        // document.getElementById('shareBtnW').classList.add('disabled_btn')
+        // document.getElementById('shareBtnT').classList.remove('telegram_btn')
+        // document.getElementById('shareBtnT').classList.add('disabled_btn')
+        // document.getElementById('redirectbtn').classList.remove('disabled_btn')
+        // document.getElementById('redirectbtn').classList.add('action_btn_whatsapp');
+        // document.getElementById('redirectbtn').removeAttribute('disabled');
+        // document.getElementById('redirectbtn').style.cursor = 'pointer'
+        //     }
             window.location.href =
-              "https://t.me/share?text=Hi, I earned free data from this website&url=https://google.com";
+              "https://t.me/share/url?text=Hi, I earned free data from this website&url=https://google.com";
           }
         }
     
