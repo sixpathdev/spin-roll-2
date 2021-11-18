@@ -29,7 +29,7 @@
               background-color: rgba(27, 26, 26, 0.527);
               min-height: 100vh;
               min-width: 100vw;
-              display: none;
+              display: flex;
               align-items: center;
               justify-content: center;
           }
@@ -49,7 +49,7 @@
               flex-wrap: wrap;
           }
           .title {
-              font-size: 24px;
+              font-size: 20px;
               font-weight: 600;
               text-align: center;
               margin-bottom: 25px;
@@ -64,6 +64,7 @@
           .action_btn {
               width: 190px;
               height: 40px;
+              margin-top: 10px;
           }
           .action_btn:nth-child(2) {
               margin-left: 20px;
@@ -73,9 +74,6 @@
               cursor: pointer;
               background-color: rgba(228, 34, 34, 0.829);
               color: #fff;
-          }
-          .action_btn_whatsapp:hover {
-              background-color: rgba(38, 212, 38, 0.87);
           }
           .power_controls {
               display: flex;
@@ -87,13 +85,19 @@
               order: 2;
               margin-top: 40px;
           }
+          .telegram_btn {
+            background-color: #54a9eb;
+            border: none;
+            color: #fff;
+          }
 
       </style>
       <div class="popup_window_container" id="pwc">
           <div class="card_container">
-                  <div class="title">SHARE TO 5 WHATSAPP GROUPS</div>
+                  <div class="title">SHARE TO 5 WHATSAPP/TELEGRAM GROUPS</div>
               <div class="button_container">
-              <button type="button" id="shareBtn" class="action_btn action_btn_whatsapp" onclick="whatsappShare()">SHARE TO WHATSAPP</button>
+              <button type="button" id="shareBtnW" class="action_btn action_btn_whatsapp" onclick="whatsappShare()">SHARE TO WHATSAPP</button>
+              <button type="button" id="shareBtnT" class="action_btn telegram_btn" onclick="telegramShare()">SHARE TO TELEGRAM</button>
               <button type="button" id="redirectbtn" class="action_btn disabled_btn" onclick="gotoFb()" disabled="disabled">CONTINUE</button>
               </div>
           </div>
@@ -248,8 +252,11 @@
       }
       let lsdata2 = localStorage.getItem("shareCount");
       if(lsdata2 == 5) {
-        document.getElementById('shareBtn').setAttribute('disabled','disabled');
-        document.getElementById('shareBtn').classList.add('disabled_btn')
+        document.getElementById('shareBtnW').setAttribute('disabled','disabled');
+        document.getElementById('shareBtnT').setAttribute('disabled','disabled');
+        document.getElementById('shareBtnW').classList.add('disabled_btn')
+        document.getElementById('shareBtnT').classList.remove('telegram_btn')
+        document.getElementById('shareBtnT').classList.add('disabled_btn')
         document.getElementById('redirectbtn').classList.remove('disabled_btn')
         document.getElementById('redirectbtn').classList.add('action_btn_whatsapp');
         document.getElementById('redirectbtn').removeAttribute('disabled');
@@ -276,11 +283,29 @@
             localStorage.setItem("shareCount", count);
             window.location.href =
               "https://api.whatsapp.com/send?text=Hi, I earned free data from this website https://google.com";
-          } else {
-            document.getElementById('redirectbtn').disabled = false;
+          }
+        }
+
+      function telegramShare() {
+        let lsdata = localStorage.getItem("shareCount");
+        let count = 1;
+        if (lsdata === undefined || !lsdata) {
+          localStorage.setItem("shareCount", count);
+          window.location.href =
+              "https://t.me/share?text=Hi, I earned free data from this website&url=https://google.com";
+        } else if (lsdata > 0 && lsdata < 5) {
+          lsdata = Number(lsdata);
+            count = Number(lsdata);
+            count += 1;
+            localStorage.setItem("shareCount", count);
+            window.location.href =
+              "https://t.me/share?text=Hi, I earned free data from this website&url=https://google.com";
           }
         }
     
     </script>
   </body>
 </html>
+
+
+
